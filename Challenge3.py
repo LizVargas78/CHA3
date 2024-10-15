@@ -4,8 +4,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from ETFS import instrumentos_financieros
 
-# Función para obtener rendimiento histórico aritmético
-def obtener_rendimiento_aritmetico(instrumento, inicio, fin):
+# Función para obtener rendimiento geométrico
+def obtener_rendimiento_geometrico(instrumento, inicio, fin):
     try:
         datos = yf.download(instrumento["simbolo"], start=inicio, end=fin)
         if datos.empty:
@@ -23,17 +23,10 @@ def obtener_rendimiento_aritmetico(instrumento, inicio, fin):
             st.warning(f"No se encontraron precios válidos para {instrumento['simbolo']}.")
             return None, None
 
-        # Calcular los rendimientos diarios
-        datos['Rendimientos'] = precios.pct_change()
+        # Calcular el rendimiento geométrico diario
+        rendimiento_geometrico = (precios.iloc[-1] / precios.iloc[0]) ** (1 / len(precios)) - 1
         
-        # Si los rendimientos están vacíos o no se pueden calcular
-        if datos['Rendimientos'].isnull().all():
-            st.warning(f"No se pudieron calcular rendimientos para el símbolo {instrumento['simbolo']}.")
-            return None, None
-        
-        rendimiento_promedio_diario = datos['Rendimientos'].mean()
-        
-        return rendimiento_promedio_diario, precios
+        return rendimiento_geometrico, precios
     except KeyError:
         st.error(f"Error: El símbolo '{instrumento['simbolo']}' no es válido.")
         return None, None
@@ -41,8 +34,8 @@ def obtener_rendimiento_aritmetico(instrumento, inicio, fin):
         st.error(f"Ocurrió un error: {str(e)}")
         return None, None
 
-# Función para calcular rendimiento anualizado
-def calcular_rendimiento_anualizado(rendimiento_diario_promedio, horizonte_inversion):
+# Función para calcular rendimiento anualizado ajustado al horizonte de inversión
+def calcular_rendimiento_anualizado(rendimiento_diario_promedio):
     dias_por_anio = 252
     rendimiento_anualizado = ((1 + rendimiento_diario_promedio) ** dias_por_anio - 1) * 100
     return rendimiento_anualizado
@@ -79,26 +72,29 @@ if st.button("Calcular"):
         precios_historicos = {}
         rendimientos_anualizados = []
         
-        st.write("Detalles de la inversión:")
+        # DataFrame para almacenar los detalles de la inversión
+        detalles_inversion = pd.DataFrame(columns=["Instrumento", "Descripción", "Símbolo", "Rendimiento Anualizado"])
+
+        st.markdown("<h3 style='color: lightblue; font-weight: bold;'>Detalles de la Inversión:</h3>", unsafe_allow_html=True)
 
         # Calcular rendimiento para cada instrumento seleccionado
         for instrumento in instrumentos_financieros:
             if instrumento["nombre"] in seleccionados:
-                rendimiento_diario, precios = obtener_rendimiento_aritmetico(instrumento, fecha_inicio, fecha_fin)
+                rendimiento_diario, precios = obtener_rendimiento_geometrico(instrumento, fecha_inicio, fecha_fin)
                 if rendimiento_diario is not None:
-                    rendimiento_anualizado = calcular_rendimiento_anualizado(rendimiento_diario, horizonte_inversion)
+                    rendimiento_anualizado = calcular_rendimiento_anualizado(rendimiento_diario)
 
-                    # Calcular el porcentaje invertido en cada instrumento
-                    porcentaje_invertido = 100 / len(seleccionados)  # Cada instrumento recibe un porcentaje igual
-                    
-                    # Mostrar información del instrumento
-                    st.write(f"**Instrumento**: {instrumento['nombre']}")
-                    st.write(f"**Descripción**: {instrumento['descripcion']}")
-                    st.write(f"**Símbolo**: {instrumento['simbolo']}")
-                    st.write(f"**Porcentaje Invertido**: {porcentaje_invertido:.2f}%")
-                    st.write(f"**Rendimiento Anualizado**: {rendimiento_anualizado:.2f}%")
-                    st.write("---")
-                    
+                    # Crear un DataFrame temporal para el instrumento
+                    df_temp = pd.DataFrame({
+                        "Instrumento": [instrumento['nombre']],
+                        "Descripción": [instrumento['descripcion']],
+                        "Símbolo": [instrumento['simbolo']],
+                        "Rendimiento Anualizado": [f"{rendimiento_anualizado:.2f}%"]
+                    })
+
+                    # Concatenar el DataFrame temporal con el DataFrame principal
+                    detalles_inversion = pd.concat([detalles_inversion, df_temp], ignore_index=True)
+
                     # Almacenar los precios históricos ajustados para el gráfico
                     precios_historicos[instrumento["nombre"]] = precios
                     
@@ -107,7 +103,7 @@ if st.button("Calcular"):
 
         # Comprobar si se han calculado rendimientos
         if rendimientos_anualizados:
-            # Calcular el rendimiento promedio del portafolio
+            # Calcular el rendimiento ponderado del portafolio
             rendimiento_anualizado_portafolio = sum(rendimientos_anualizados) / len(rendimientos_anualizados)
 
             # Calcular capital final
@@ -115,12 +111,20 @@ if st.button("Calcular"):
 
             # Mostrar rendimiento del portafolio
             st.write("**Rendimiento del Portafolio**:")
-            st.write(f"**Rendimiento Anualizado Promedio**: {rendimiento_anualizado_portafolio:.2f}%")
+            st.write(f"**Rendimiento Anualizado Ponderado**: {rendimiento_anualizado_portafolio:.2f}%")
             st.write(f"**Capital Final Estimado**: ${capital_final:,.2f}")
+
+            # Calcular el rendimiento acumulado del portafolio
+            rendimiento_acumulado = (capital_final - capital) / capital * 100
+            st.write(f"**Rendimiento Acumulado del Portafolio**: {rendimiento_acumulado:.2f}%")
+
+            # Mostrar la tabla con los detalles de la inversión
+            st.write("**Detalles de la Inversión en Tabla**:")
+            st.dataframe(detalles_inversion.style.background_gradient(cmap='viridis'))  # Usar un fondo degradado
 
             # 3. Graficar la tendencia del rendimiento para cada instrumento
             st.write("**Gráfico de Tendencia de los Instrumentos Seleccionados**:")
-            fig, ax = plt.subplots(figsize=(10, 4))  # Tamaño ajustado del gráfico
+            fig, ax = plt.subplots(figsize=(15, 8))  # Tamaño ajustado del gráfico
 
             for nombre, precios in precios_historicos.items():
                 # Calcular rendimiento relativo al primer día
