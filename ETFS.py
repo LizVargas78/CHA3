@@ -1,0 +1,45 @@
+# Lista de instrumentos financieros con nombre, descripción y símbolo
+instrumentos_financieros = [
+    {"nombre": "AZ China", "descripcion": "Índice que se enfoca en empresas chinas incluidas en el índice MSCI China", "simbolo": "MCHI"},
+    {"nombre": "AZ MSCI TAIWAN INDEX FD", "descripcion": "Fondo que sigue el índice MSCI de Taiwán", "simbolo": "EWT"},
+    {"nombre": "AZ RUSSELL 2000", "descripcion": "Fondo que sigue el índice Russell 2000", "simbolo": "IWM"},
+    {"nombre": "AZ Brasil", "descripcion": "Fondo relacionado con el mercado brasileño", "simbolo": "EWZ"},
+    {"nombre": "AZ MSCI UNITED KINGDOM", "descripcion": "Fondo que sigue el índice MSCI del Reino Unido", "simbolo": "EWU"},
+    {"nombre": "AZ DJ US FINANCIAL SECT", "descripcion": "Fondo relacionado con el sector financiero de EE.UU.", "simbolo": "IYF"},
+    {"nombre": "AZ BRIC", "descripcion": "Fondo que sigue a los países BRIC (Brasil, Rusia, India, China)", "simbolo": "BKF"},
+    {"nombre": "AZ MSCI SOUTH KOREA IND", "descripcion": "Fondo que sigue el índice MSCI de Corea del Sur", "simbolo": "EWY"},
+    {"nombre": "AZ BARCLAYS AGGREGATE", "descripcion": "Fondo que sigue el índice Barclays Aggregate", "simbolo": "AGG"},
+    {"nombre": "AZ Mercados Emergentes", "descripcion": "Fondo que sigue mercados emergentes", "simbolo": "EEM"},
+    {"nombre": "AZ MSCI EMU", "descripcion": "Fondo que sigue el índice MSCI Eurozone", "simbolo": "EZU"},
+    {"nombre": "AZ FTSE/XINHUA CHINA 25", "descripcion": "Fondo que sigue el índice FTSE/Xinhua China 25", "simbolo": "FXI"},
+    {"nombre": "AZ Oro", "descripcion": "Fondo relacionado con el precio del oro", "simbolo": "GLD"},
+    {"nombre": "AZ LATIXX MEX CETETRAC", "descripcion": "Índice mexicano de CETES", "simbolo": "CETETRC.MX"},
+    {"nombre": "AZ QQQ NASDAQ 100", "descripcion": "Fondo que sigue el índice Nasdaq 100", "simbolo": "QQQ"},
+    {"nombre": "AZ MSCI ASIA EX-JAPAN", "descripcion": "Fondo que sigue el índice MSCI Asia sin Japón", "simbolo": "AAXJ"},
+    {"nombre": "AZ LATIXX MEX M10TRAC", "descripcion": "Fondo mexicano basado en bonos M10", "simbolo": "M10TRAC.MX"},
+    {"nombre": "AZ BARCLAYS 1-3 YEAR TR", "descripcion": "Fondo que sigue el índice Barclays 1-3 Year Treasury", "simbolo": "SHY"},
+    {"nombre": "AZ MSCI ACWI INDEX FUND", "descripcion": "Fondo que sigue el índice MSCI All Country World Index", "simbolo": "ACWI"},
+    {"nombre": "AZ LATIXX MEXICO M5TRAC", "descripcion": "Fondo mexicano basado en bonos M5", "simbolo": "M5TRAC.MX"},
+    {"nombre": "AZ SILVER TRUST", "descripcion": "Fondo relacionado con el precio de la plata", "simbolo": "SLV"},
+    {"nombre": "AZ MSCI HONG KONG INDEX", "descripcion": "Fondo que sigue el índice MSCI Hong Kong", "simbolo": "EWH"},
+    {"nombre": "AZ LATIXX MEX UDITRAC", "descripcion": "Fondo mexicano relacionado con UDIS", "simbolo": "UDITRAC.MX"},
+    {"nombre": "AZ SPDR S&P 500 ETF TRUST", "descripcion": "Fondo que sigue el índice S&P 500", "simbolo": "SPY"},
+    {"nombre": "AZ MSCI JAPAN INDEX FD", "descripcion": "Fondo que sigue el índice MSCI Japón", "simbolo": "EWJ"},
+    {"nombre": "AZ BG EUR GOVT BOND 1-3", "descripcion": "Fondo relacionado con bonos gubernamentales europeos a corto plazo", "simbolo": "IBGS.AS"},
+    {"nombre": "AZ SPDR DJIA TRUST", "descripcion": "Fondo que sigue el índice Dow Jones Industrial Average", "simbolo": "DIA"},
+    {"nombre": "AZ MSCI FRANCE INDEX FD", "descripcion": "Fondo que sigue el índice MSCI Francia", "simbolo": "EWQ"},
+    {"nombre": "AZ DJ US OIL & GAS EXPL", "descripcion": "Fondo relacionado con exploración de petróleo y gas en EE.UU.", "simbolo": "IEO"},
+    {"nombre": "AZ VANGUARD EMERGING MARKET ETF", "descripcion": "Fondo que sigue mercados emergentes de Vanguard", "simbolo": "VWO"},
+    {"nombre": "AZ MSCI AUSTRALIA INDEX", "descripcion": "Fondo que sigue el índice MSCI Australia", "simbolo": "EWA"},
+    {"nombre": "AZ IPC LARGE CAP TR TRAC", "descripcion": "Índice de capitalización grande del mercado mexicano", "simbolo": "ILCTRAC.MX"},
+    {"nombre": "AZ FINANCIAL SELECT SECTOR SPDR", "descripcion": "Fondo que sigue el sector financiero del S&P 500", "simbolo": "XLF"},
+    {"nombre": "AZ MSCI CANADA", "descripcion": "Fondo que sigue el índice MSCI Canadá", "simbolo": "EWC"},
+    {"nombre": "AZ S&P LATIN AMERICA 40", "descripcion": "Fondo que sigue el índice S&P Latin America 40", "simbolo": "ILF"},
+    {"nombre": "AZ HEALTH CARE SELECT SECTOR", "descripcion": "Fondo que sigue el sector salud del S&P 500", "simbolo": "XLV"},
+    {"nombre": "AZ MSCI GERMANY INDEX", "descripcion": "Fondo que sigue el índice MSCI Alemania", "simbolo": "EWG"},
+    {"nombre": "AZ DJ US HOME CONSTRUCT", "descripcion": "Fondo relacionado con la construcción de viviendas en EE.UU.", "simbolo": "ITB"}
+]
+
+# Imprimir la lista de instrumentos
+for instrumento in instrumentos_financieros:
+    print(instrumento)
